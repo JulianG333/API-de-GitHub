@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <title>Actividad de {{ username }}</title>
+</head>
+<style>
+    .table-responsive {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-collapse: separate;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: bold;
+    border-bottom: 2px solid #dee2e6;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.table td,
+.table th {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table td {
+    text-align: center;
+}
+
+.table th {
+    text-align: center;
+}
+
+.table tbody td:first-child {
+    font-weight: bold;
+    color: #007bff;
+}
+
+@media (max-width: 767.98px) {
+    .table-responsive {
+        border: 0;
+    }
+}
+
+</style>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Actividad de {{ username }}</h1>
+        <h2 class="mt-4">Clasificación de Actividad por Fechas:</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Repositorio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.date }}</td>
+                            <td>{{ event.type}}</td>
+                            <td>{{ event.repo }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <div class="mt-3">
+            <a href="/" class="btn btn-secondary">Volver a la página principal</a>
+        </div>
+        <a href="/users/{{ username }}/contributions">
+            Ver contibuciones
+        </a>
+    </div>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
