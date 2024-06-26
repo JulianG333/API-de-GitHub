@@ -93,18 +93,19 @@
                         <tr>
                             <td>{{ event.date }}</td>
                             <td>{{ event.type}}</td>
-                            <td>{{ event.repo }}</td>
+                            <td>{{ event.repo }}</td>0
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
         <div class="mt-3">
             <a href="/" class="btn btn-secondary">Volver a la página principal</a>
         </div>
         <a href="/users/{{ username }}/contributions">
             Ver contibuciones
         </a>
-    </div>
+    
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

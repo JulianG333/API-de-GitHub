@@ -17,20 +17,6 @@
             </div>
             <button type="submit" class="btn btn-primary mt-2">Traer Repos</button>
         </form>
-        
-
-        {% if repos %}
-            <h2 class="mt-5">Repositorios de {{ username }}</h2>
-            <ul class="list-group">
-                {% for repo in repos %}
-                    <li class="list-group-item">
-                        <a href="{{ repo.html_url }}" target="_blank">{{ repo.name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

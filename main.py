@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException, Depends, Form, Query
+from fastapi import FastAPI, Request, HTTPException, Depends, Query
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
@@ -17,7 +17,7 @@ class RepoCreateRequest(BaseModel):
     private: bool = True
     user_name: str
     pull_request: str
-    
+
 
 def get_github_service():
     token = os.getenv("GITHUB_TOKEN")
@@ -60,7 +60,7 @@ async def get_user_activity(username: str, request: Request, github_service: Git
         return templates.TemplateResponse("activity.html", {"request": request, "events": events, "username": username})
     except httpx.HTTPStatusError as e:
         raise HTTPException(status_code=e.response.status_code, detail=e.response.json())
-
+    
 @app.get("/users/{username}/contributions")
 async def get_user_contributions(username: str, request: Request, github_service: GitHubService = Depends(get_github_service)):
     try:
@@ -68,7 +68,6 @@ async def get_user_contributions(username: str, request: Request, github_service
         return templates.TemplateResponse("contributions.html", {"request": request, "contributions": contributions, "username": username})
     except httpx.HTTPStatusError as e:
         raise HTTPException(status_code=e.response.status_code, detail=e.response.json())
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

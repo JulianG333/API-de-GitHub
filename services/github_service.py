@@ -1,5 +1,5 @@
 import httpx
-
+from fastapi import HTTPException
 class GitHubService:
     def __init__(self, token: str):
         self.token = token
@@ -24,26 +24,39 @@ class GitHubService:
         pulls = response.json()
         return [{"title": pull["title"], "html_url": pull["html_url"]} for pull in pulls]
 
-    
-    def get_user_contributions(self, username: str):
+
+    async def get_user_contributions(self, username: str):
         url = f"https://api.github.com/users/{username}/repos"
-        response = self.client.get(url)
-        response.raise_for_status()
-        repos = response.json()
+        
+        try:
+            async with self.client.get(url) as response:
+                response.raise_for_status()
+                repos = await response.json()
+        except httpx.HTTPStatusError as http_err:
+            raise HTTPException(status_code=http_err.response.status_code, detail=http_err.response.json())
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"Error al obtener repositorios de GitHub: {str(err)}")
         
         contributions = []
         for repo in repos:
             contrib_url = f"https://api.github.com/repos/{username}/{repo['name']}/contributors"
-            contrib_response = self.client.get(contrib_url)
-            contrib_response.raise_for_status()
-            contrib_data = contrib_response.json()
-            for contrib in contrib_data:
-                if contrib["login"] == username:
-                    contributions.append({
-                        "repo": repo["name"],
-                        "count": contrib["contributions"]
-                    })
+            try:
+                async with self.client.get(contrib_url) as contrib_response:
+                    contrib_response.raise_for_status()
+                    contrib_data = await contrib_response.json()
+                    for contrib in contrib_data:
+                        if contrib["login"] == username:
+                            contributions.append({
+                                "repo": repo["name"],
+                                "count": contrib["contributions"]
+                            })
+            except httpx.HTTPStatusError as http_err:
+                raise HTTPException(status_code=http_err.response.status_code, detail=http_err.response.json())
+            except Exception as err:
+                raise HTTPException(status_code=500, detail=f"Error al obtener contribuciones de GitHub: {str(err)}")
+        
         return contributions
+
     
     def get_user_events(self, username):
             url = f"https://api.github.com/users/{username}/events"
