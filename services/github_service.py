@@ -33,7 +33,7 @@ class GitHubService:
                 response.raise_for_status()
                 repos = await response.json()
         except httpx.HTTPStatusError as http_err:
-            raise HTTPException(status_code=http_err.response.status_code, detail=http_err.response.json())
+            raise HTTPException(status_code=http_err.response.status_code, detail=await http_err.response.json())
         except Exception as err:
             raise HTTPException(status_code=500, detail=f"Error al obtener repositorios de GitHub: {str(err)}")
         
@@ -48,10 +48,17 @@ class GitHubService:
                         if contrib["login"] == username:
                             contributions.append({
                                 "repo": repo["name"],
+                                "description": repo["description"],
+                                "url": repo["html_url"],
+                                "created_at": repo["created_at"],
+                                "updated_at": repo["updated_at"],
+                                "language": repo["language"],
+                                "stars": repo["stargazers_count"],
+                                "forks": repo["forks_count"],
                                 "count": contrib["contributions"]
                             })
             except httpx.HTTPStatusError as http_err:
-                raise HTTPException(status_code=http_err.response.status_code, detail=http_err.response.json())
+                raise HTTPException(status_code=http_err.response.status_code, detail=await http_err.response.json())
             except Exception as err:
                 raise HTTPException(status_code=500, detail=f"Error al obtener contribuciones de GitHub: {str(err)}")
         

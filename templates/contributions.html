@@ -83,18 +83,20 @@
                 <thead>
                     <tr>
                         <th>Repositorio</th>
+                        <th>Descripción</th>
+                        <th>URL</th>
+                        <th>Fecha de Creación</th>
+                        <th>Fecha de Actualización</th>
+                        <th>Lenguaje</th>
+                        <th>Estrellas</th>
+                        <th>Forks</th>
                         <th>Contribuciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for contrib in contributions %}
-                        <tr>
-                            <td>{{ contrib.repo }}</td>
-                            <td>{{ contrib.count }}</td>
-                        </tr>
-                    {% endfor %}
                 </tbody>
             </table>
+            
         </div>
 
         <div class="mt-3">
