@@ -94,6 +94,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for contrib in contributors %}
+                <tr>
+                    <td>{{ contrib.repo }}</td>
+                    <td>{{ contrib.description }}</td>
+                    <td><a href="{{ contrib.url }}" target="_blank">{{ contrib.url }}</a></td>
+                    <td>{{ contrib.created_at }}</td>
+                    <td>{{ contrib.updated_at }}</td>
+                    <td>{{ contrib.language }}</td>
+                    <td>{{ contrib.stars }}</td>
+                    <td>{{ contrib.forks }}</td>
+                    <td>{{ contrib.count }}</td>
+                </tr>
+            {% endfor %}
                 </tbody>
             </table>
             
